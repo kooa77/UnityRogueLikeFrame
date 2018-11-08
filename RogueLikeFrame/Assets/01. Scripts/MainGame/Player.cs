@@ -8,7 +8,8 @@ public class Player : MonoBehaviour
 
 	void Start ()
     {
-	}
+        SetPosition(15, 7);
+    }
 	
 	void Update ()
     {
@@ -56,5 +57,14 @@ public class Player : MonoBehaviour
     void MoveDown()
     {
         _model.PlayDownWalk();
+    }
+
+
+    // Position
+
+    void SetPosition(int x, int y)
+    {
+        TileMap map = GameManager.Instance.GetMap();
+        map.SetPlayer(x, y, this);
     }
 }

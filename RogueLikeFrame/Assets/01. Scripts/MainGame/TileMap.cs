@@ -8,7 +8,7 @@ public class TileMap : MonoBehaviour
 
     void Start ()
     {
-        Create();
+        //Create();
 	}
 	
 	void Update ()
@@ -19,13 +19,19 @@ public class TileMap : MonoBehaviour
 
     // TileMap
 
-    void Create()
+    MapTile[,] _mapTileArray;
+
+    // refactoring : 중복 코드 제거
+    public void Create()
     {
         Sprite[] spriteList = Resources.LoadAll<Sprite>("Map/MapSprite");
         
         // 1층
         int width = 32;
         int height = 16;
+
+        _mapTileArray = new MapTile[height, width];
+
         for (int y = 0; y < height; y++)
         {
             for (int x = 0; x < width; x++)
@@ -40,6 +46,8 @@ public class TileMap : MonoBehaviour
                 {
                     MapTile mapTile = tileObject.GetComponent<MapTile>();
                     mapTile.Init(spriteList[spriteIndex], x - (width / 2), -y + (height / 2));
+
+                    _mapTileArray[y, x] = mapTile;
                 }
             }
         }
@@ -66,5 +74,19 @@ public class TileMap : MonoBehaviour
                 }
             }
         }
+    }
+
+    MapTile GetMapTile(int x, int y)
+    {
+        return _mapTileArray[y, x];
+    }
+
+
+    // Map Objects
+
+    public void SetPlayer(int x, int y, Player player)
+    {
+        MapTile mapTile = GetMapTile(x, y);
+        player.transform.position = mapTile.transform.position;
     }
 }
