@@ -91,9 +91,9 @@ public class TileMap : MonoBehaviour
 
     // Map Objects
 
-    public void SetPlayer(int x, int y, Player player)
+    public void SetCharacter(int x, int y, Character character)
     {
         MapTile mapTile = GetMapTile(x, y);
-        player.transform.position = mapTile.transform.position;
+        character.transform.position = mapTile.transform.position;
     }
 }

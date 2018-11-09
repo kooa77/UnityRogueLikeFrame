@@ -5,6 +5,8 @@ using UnityEngine;
 public class GameScene : MonoBehaviour
 {
     [SerializeField] TileMap _tileMap;
+    [SerializeField] Character _player;
+    [SerializeField] Character _soldier;
 
     // Unity
 
@@ -12,6 +14,9 @@ public class GameScene : MonoBehaviour
     {
         _tileMap.Create();
         GameManager.Instance.SetMap(_tileMap);
+
+        _player.Init();
+        _soldier.Init();
     }
 	
 	void Update ()
