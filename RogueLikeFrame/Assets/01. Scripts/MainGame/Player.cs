@@ -8,6 +8,7 @@ public class Player : MonoBehaviour
 
 	void Start ()
     {
+        _map = GameManager.Instance.GetMap();
         SetPosition(15, 7);
     }
 	
@@ -17,9 +18,10 @@ public class Player : MonoBehaviour
 	}
 
 
-    // Model
+    // Attr
 
     [SerializeField] CharacterModel _model;
+    TileMap _map = GameManager.Instance.GetMap();
 
 
     // Input
@@ -42,29 +44,33 @@ public class Player : MonoBehaviour
     void MoveLeft()
     {
         _model.PlayLeftWalk();
-        _x--;
-        UpdatePosition();
+
+        int newX = _x - 1;
+        SetPosition(newX, _y);
     }
 
     void MoveRight()
     {
         _model.PlayRightWalk();
-        _x++;
-        UpdatePosition();
+
+        int newX = _x + 1;
+        SetPosition(newX, _y);
     }
 
     void MoveUp()
     {
         _model.PlayUpWalk();
-        _y--;
-        UpdatePosition();
+
+        int newY = _y - 1;
+        SetPosition(_x, newY);
     }
 
     void MoveDown()
     {
         _model.PlayDownWalk();
-        _y++;
-        UpdatePosition();
+
+        int newY = _y + 1;
+        SetPosition(_x, newY);
     }
 
 
@@ -73,16 +79,13 @@ public class Player : MonoBehaviour
     int _x = 0;
     int _y = 0;
 
-    void UpdatePosition()
-    {
-        TileMap map = GameManager.Instance.GetMap();
-        map.SetPlayer(_x, _y, this);
-    }
-
     void SetPosition(int x, int y)
     {
-        _x = x;
-        _y = y;
-        UpdatePosition();
+        if(true == _map.CanMove(x, y))
+        {
+            _x = x;
+            _y = y;
+            _map.SetPlayer(_x, _y, this);
+        }
     }
 }

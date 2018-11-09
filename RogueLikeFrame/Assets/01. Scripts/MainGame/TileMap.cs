@@ -41,7 +41,7 @@ public class TileMap : MonoBehaviour
                 tileObject.transform.localScale = Vector3.one;
                 tileObject.transform.localPosition = Vector3.zero;
 
-                int spriteIndex = 17;
+                int spriteIndex = 97;
                 if (spriteIndex < spriteList.Length)
                 {
                     MapTile mapTile = tileObject.GetComponent<MapTile>();
@@ -65,12 +65,14 @@ public class TileMap : MonoBehaviour
                     tileObject.transform.localScale = Vector3.one;
                     tileObject.transform.localPosition = Vector3.zero;
 
-                    int spriteIndex = 139;
+                    int spriteIndex = 164;
                     if (spriteIndex < spriteList.Length)
                     {
                         MapTile mapTile = tileObject.GetComponent<MapTile>();
                         mapTile.Init(spriteList[spriteIndex], x - (width / 2), -y + (height / 2));
                     }
+
+                    GetMapTile(x, y).SetMove(false);
                 }
             }
         }
@@ -79,6 +81,11 @@ public class TileMap : MonoBehaviour
     MapTile GetMapTile(int x, int y)
     {
         return _mapTileArray[y, x];
+    }
+
+    public bool CanMove(int x, int y)
+    {
+        return GetMapTile(x, y).CanMove();
     }
 
 
