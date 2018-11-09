@@ -42,29 +42,47 @@ public class Player : MonoBehaviour
     void MoveLeft()
     {
         _model.PlayLeftWalk();
+        _x--;
+        UpdatePosition();
     }
 
     void MoveRight()
     {
         _model.PlayRightWalk();
+        _x++;
+        UpdatePosition();
     }
 
     void MoveUp()
     {
         _model.PlayUpWalk();
+        _y--;
+        UpdatePosition();
     }
 
     void MoveDown()
     {
         _model.PlayDownWalk();
+        _y++;
+        UpdatePosition();
     }
 
 
     // Position
 
-    void SetPosition(int x, int y)
+    int _x = 0;
+    int _y = 0;
+
+    void UpdatePosition()
     {
         TileMap map = GameManager.Instance.GetMap();
-        map.SetPlayer(x, y, this);
+        map.SetPlayer(_x, _y, this);
+    }
+
+    void SetPosition(int x, int y)
+    {
+        _x = x;
+        _y = y;
+        UpdatePosition();
     }
 }
