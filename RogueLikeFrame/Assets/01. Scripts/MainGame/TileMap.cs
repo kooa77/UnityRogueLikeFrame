@@ -70,9 +70,9 @@ public class TileMap : MonoBehaviour
                     {
                         MapTile mapTile = tileObject.GetComponent<MapTile>();
                         mapTile.Init(spriteList[spriteIndex], x - (width / 2), -y + (height / 2));
-                    }
 
-                    GetMapTile(x, y).SetMove(false);
+                        _mapTileArray[y, x].SetCanMove(false);
+                    }
                 }
             }
         }
@@ -91,9 +91,21 @@ public class TileMap : MonoBehaviour
 
     // Map Objects
 
-    public void SetCharacter(int x, int y, Character character)
+    public void SetMapObject(int x, int y, MapObject mapObject)
     {
         MapTile mapTile = GetMapTile(x, y);
-        character.transform.position = mapTile.transform.position;
+        mapTile.SetMapObject(mapObject);
+    }
+
+    public void ResetMapObject(int x, int y)
+    {
+        MapTile mapTile = GetMapTile(x, y);
+        mapTile.ResetMapObject();
+    }
+
+    public MapObject GetMapObject(int x, int y)
+    {
+        MapTile mapTile = GetMapTile(x, y);
+        return mapTile.GetMaoObject();
     }
 }

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Character : MonoBehaviour
+public class Character : MapObject
 {
     // Unity
 	
@@ -22,11 +22,20 @@ public class Character : MonoBehaviour
 
     public void Init()
     {
+        _canMove = false;
+
         _map = GameManager.Instance.GetMap();
 
-        // todo : 장애물이 없는 곳에 위치가 되도록 개선
-        int x = Random.Range(0, 32);
-        int y = Random.Range(0, 16);
+        int x = 0;
+        int y = 0;
+        while (true)
+        {
+            x = Random.Range(0, 32);
+            y = Random.Range(0, 16);
+            if (true == _map.CanMove(x, y))
+                break;
+
+        }
         SetPosition(x, y);
     }
 
@@ -38,7 +47,15 @@ public class Character : MonoBehaviour
         _model.PlayLeftWalk();
 
         int newX = _x - 1;
-        SetPosition(newX, _y);
+        if (true == _map.CanMove(newX, _y))
+        {
+            Move(newX, _y);
+        }
+        else
+        {
+            Collide(newX, _y);
+        }
+            
     }
 
     protected void MoveRight()
@@ -46,7 +63,14 @@ public class Character : MonoBehaviour
         _model.PlayRightWalk();
 
         int newX = _x + 1;
-        SetPosition(newX, _y);
+        if (true == _map.CanMove(newX, _y))
+        {
+            Move(newX, _y);
+        }
+        else
+        {
+            Collide(newX, _y);
+        }
     }
 
     protected void MoveUp()
@@ -54,7 +78,15 @@ public class Character : MonoBehaviour
         _model.PlayUpWalk();
 
         int newY = _y - 1;
-        SetPosition(_x, newY);
+        if (true == _map.CanMove(_x, newY))
+        {
+            Move(_x, newY);
+        }
+        else
+        {
+            Collide(_x, newY);
+        }
+            
     }
 
     protected void MoveDown()
@@ -62,7 +94,29 @@ public class Character : MonoBehaviour
         _model.PlayDownWalk();
 
         int newY = _y + 1;
-        SetPosition(_x, newY);
+        if (true == _map.CanMove(_x, newY))
+        {
+            Move(_x, newY);
+        }
+        else
+        {
+            Collide(_x, newY);
+        }
+    }
+
+    void Move(int newX, int newY)
+    {
+        ResetPosition(_x, _y);
+        SetPosition(newX, newY);
+    }
+
+    void Collide(int x, int y)
+    {
+        MapObject mapObject = _map.GetMapObject(x, y);
+        if (null != mapObject)
+        {
+            mapObject.Collide(this);
+        }
     }
 
 
@@ -73,11 +127,13 @@ public class Character : MonoBehaviour
 
     protected void SetPosition(int x, int y)
     {
-        if (true == _map.CanMove(x, y))
-        {
-            _x = x;
-            _y = y;
-            _map.SetCharacter(_x, _y, this);
-        }
+        _x = x;
+        _y = y;
+        _map.SetMapObject(_x, _y, this);
+    }
+
+    void ResetPosition(int x, int y)
+    {
+        _map.ResetMapObject(_x, _y);
     }
 }
