@@ -36,4 +36,17 @@ public class CharacterModel : MonoBehaviour
     {
         gameObject.GetComponent<Animator>().SetTrigger("down");
     }
+
+
+    // State
+
+    public void PlayDamage()
+    {
+        gameObject.GetComponent<Animator>().SetTrigger("damage");
+    }
+
+    public void PlayDead()
+    {
+        gameObject.GetComponent<Animator>().SetTrigger("dead");
+    }
 }

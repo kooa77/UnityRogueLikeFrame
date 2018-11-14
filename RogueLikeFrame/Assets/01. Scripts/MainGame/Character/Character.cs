@@ -20,11 +20,15 @@ public class Character : MapObject
     [SerializeField] protected CharacterModel _model;
     protected TileMap _map = GameManager.Instance.GetMap();
 
+    bool _isDead = false;
+    int _hp = 0;
+
     public void Init()
     {
         _canMove = false;
 
         _map = GameManager.Instance.GetMap();
+        _hp = 10;
 
         int x = 0;
         int y = 0;
@@ -37,6 +41,42 @@ public class Character : MapObject
 
         }
         SetPosition(x, y);
+    }
+
+
+    // Event
+
+    public override void Attack(MapObject senderObject)
+    {
+        if (true == _isDead)
+            return;
+
+        Debug.Log("Character Attack : " + senderObject);
+        Damage();
+    }
+
+    void Damage()
+    {
+        _hp -= 1;
+        if (_hp <= 0)
+        {
+            _hp = 0;
+            Dead();
+            _model.PlayDead();
+        }
+        else
+        {
+            _model.PlayDamage();
+        }
+    }
+
+    void Dead()
+    {
+        if (true == _isDead)
+            return;
+
+        Debug.Log("Dead");
+        _isDead = true;
     }
 
 
@@ -106,16 +146,30 @@ public class Character : MapObject
 
     void Move(int newX, int newY)
     {
+        if (true == _isDead)
+            return;
+
         ResetPosition(_x, _y);
         SetPosition(newX, newY);
     }
 
     void Collide(int x, int y)
     {
+        if (true == _isDead)
+            return;
+
         MapObject mapObject = _map.GetMapObject(x, y);
         if (null != mapObject)
         {
-            mapObject.Collide(this);
+            switch(mapObject.GetObjectType())
+            {
+                case MapObject.eType.ENEMY:
+                    mapObject.Attack(this);
+                    break;
+                default:
+                    mapObject.Collide(this);
+                    break;
+            }
         }
     }
 

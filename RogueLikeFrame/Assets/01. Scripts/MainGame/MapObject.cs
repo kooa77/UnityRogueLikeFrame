@@ -2,10 +2,10 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class MapObject : MonoBehaviour {
-
-	// Use this for initialization
-	void Start () {
+public class MapObject : MonoBehaviour
+{
+    // Use this for initialization
+    void Start () {
 		
 	}
 	
@@ -17,7 +17,18 @@ public class MapObject : MonoBehaviour {
 
     // Info
 
+    public enum eType
+    {
+        ENEMY,
+    }
+
+    eType _type;
     protected bool _canMove = false;
+
+    public eType GetObjectType()
+    {
+        return _type;
+    }
 
     public bool CanMove()
     {
@@ -29,6 +40,11 @@ public class MapObject : MonoBehaviour {
 
     public void Collide(MapObject senderObject)
     {
-        Debug.Log("Collide : " + senderObject);
+        Debug.Log("MapObject Collide : " + senderObject);
+    }
+
+    public virtual void Attack(MapObject senderObject)
+    {
+        Debug.Log("MapObject Attack : " + senderObject);
     }
 }
