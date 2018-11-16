@@ -22,7 +22,7 @@ public class MapObject : MonoBehaviour
         ENEMY,
     }
 
-    eType _type;
+    protected eType _type;
     protected bool _canMove = false;
 
     public eType GetObjectType()

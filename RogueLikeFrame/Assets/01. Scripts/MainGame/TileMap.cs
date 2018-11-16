@@ -58,7 +58,7 @@ public class TileMap : MonoBehaviour
             for (int x = 0; x < width; x++)
             {
                 int isCreate = Random.Range(0, 100);
-                if(isCreate < 30)
+                if(isCreate < 10)
                 {
                     GameObject tileObject = GameObject.Instantiate(_tileObjectPrefabs);
                     tileObject.transform.SetParent(transform);

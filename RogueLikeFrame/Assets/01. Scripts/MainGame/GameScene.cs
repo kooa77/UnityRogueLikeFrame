@@ -17,6 +17,8 @@ public class GameScene : MonoBehaviour
 
         _player.Init();
         _soldier.Init();
+
+        GameManager.Instance.SetPlayer(_player);
     }
 	
 	void Update ()

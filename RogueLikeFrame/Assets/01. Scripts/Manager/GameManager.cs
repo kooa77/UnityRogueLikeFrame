@@ -38,4 +38,19 @@ public class GameManager
     {
         _tileMap = tileMap;
     }
+
+
+    // MapObject
+
+    Character _player = null;
+
+    public void SetPlayer(Character player)
+    {
+        _player = player;
+    }
+
+    public Character GetPlayer()
+    {
+        return _player;
+    }
 }

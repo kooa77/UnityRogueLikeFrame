@@ -18,9 +18,12 @@ public class Character : MapObject
     // Attr
 
     [SerializeField] protected CharacterModel _model;
+    [SerializeField] CharacterHUD _hud;
     protected TileMap _map = GameManager.Instance.GetMap();
 
-    bool _isDead = false;
+    protected bool _isDead = false;
+
+    int _maxHP = 10;
     int _hp = 0;
 
     public void Init()
@@ -28,7 +31,7 @@ public class Character : MapObject
         _canMove = false;
 
         _map = GameManager.Instance.GetMap();
-        _hp = 10;
+        _hp = _maxHP;
 
         int x = 0;
         int y = 0;
@@ -41,6 +44,9 @@ public class Character : MapObject
 
         }
         SetPosition(x, y);
+
+        if(null != _hud)
+            _hud.UpdateHP(_hp, _maxHP);
     }
 
 
@@ -68,6 +74,9 @@ public class Character : MapObject
         {
             _model.PlayDamage();
         }
+
+        if(null != _hud)
+            _hud.UpdateHP(_hp, _maxHP);
     }
 
     void Dead()
@@ -176,8 +185,8 @@ public class Character : MapObject
 
     // Position
 
-    int _x = 0;
-    int _y = 0;
+    protected int _x = 0;
+    protected int _y = 0;
 
     protected void SetPosition(int x, int y)
     {
@@ -185,9 +194,14 @@ public class Character : MapObject
         _y = y;
         _map.SetMapObject(_x, _y, this);
     }
-
+    
     void ResetPosition(int x, int y)
     {
         _map.ResetMapObject(_x, _y);
+    }
+
+    public Vector2 GetPosition()
+    {
+        return new Vector2(_x, _y);
     }
 }

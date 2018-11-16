@@ -20,6 +20,9 @@ public class Player : Character
 
     void UpdateInput()
     {
+        if (true == _isDead)
+            return;
+
         if (true == Input.GetKeyDown(KeyCode.LeftArrow))
             MoveLeft();
         if (true == Input.GetKeyDown(KeyCode.RightArrow))
