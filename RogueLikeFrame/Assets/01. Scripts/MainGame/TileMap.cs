@@ -24,7 +24,7 @@ public class TileMap : MonoBehaviour
     // refactoring : 중복 코드 제거
     public void Create()
     {
-        Sprite[] spriteList = Resources.LoadAll<Sprite>("Map/MapSprite");
+        Sprite[] spriteList = Resources.LoadAll<Sprite>("Map/Overworld");
         
         // 1층
         int width = 32;
@@ -41,7 +41,7 @@ public class TileMap : MonoBehaviour
                 tileObject.transform.localScale = Vector3.one;
                 tileObject.transform.localPosition = Vector3.zero;
 
-                int spriteIndex = 97;
+                int spriteIndex = 156;
                 if (spriteIndex < spriteList.Length)
                 {
                     MapTile mapTile = tileObject.GetComponent<MapTile>();
@@ -65,7 +65,7 @@ public class TileMap : MonoBehaviour
                     tileObject.transform.localScale = Vector3.one;
                     tileObject.transform.localPosition = Vector3.zero;
 
-                    int spriteIndex = 164;
+                    int spriteIndex = 515;
                     if (spriteIndex < spriteList.Length)
                     {
                         MapTile mapTile = tileObject.GetComponent<MapTile>();
