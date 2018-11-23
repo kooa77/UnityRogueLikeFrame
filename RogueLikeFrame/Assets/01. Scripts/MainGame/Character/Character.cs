@@ -52,18 +52,21 @@ public class Character : MapObject
 
     // Event
 
-    public override void Attack(MapObject senderObject)
+    public override void Attacked(MapObject senderObject)
     {
         if (true == _isDead)
             return;
-
-        Debug.Log("Character Attack : " + senderObject);
-        Damage();
+        Damage(senderObject);
     }
 
-    void Damage()
+    void Damage(MapObject senderObject)
     {
-        _hp -= 1;
+        int attackPoint = senderObject.GetAttackPoint();
+        int finalAttackPoint = attackPoint - _defensePoint;
+
+        Debug.Log("Damaged : " + finalAttackPoint);
+
+        _hp -= finalAttackPoint;
         if (_hp <= 0)
         {
             _hp = 0;
@@ -162,7 +165,7 @@ public class Character : MapObject
         SetPosition(newX, newY);
     }
 
-    void Collide(int x, int y)
+    protected virtual void Collide(int x, int y)
     {
         if (true == _isDead)
             return;
@@ -173,13 +176,34 @@ public class Character : MapObject
             switch(mapObject.GetObjectType())
             {
                 case MapObject.eType.ENEMY:
-                    mapObject.Attack(this);
+                    mapObject.Attacked(this);
                     break;
                 default:
                     mapObject.Collide(this);
                     break;
             }
         }
+    }
+
+
+    // Attack/Defense
+
+    [SerializeField] Item _item = null;
+
+    protected void Attack(MapObject target)
+    {
+        // todo : 공격 애니메이션
+        if(null != _item)
+            _item.Use();
+        target.Attacked(this);
+    }
+
+    public override int GetAttackPoint()
+    {
+        int itemAttack = 0;
+        if (null != _item)
+            itemAttack = _item.GetAttackPoint();
+        return (_attackPoint + itemAttack );
     }
 
 

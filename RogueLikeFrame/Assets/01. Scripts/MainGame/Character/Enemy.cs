@@ -56,4 +56,24 @@ public class Enemy : Character
             MoveUp();
         }
     }
+
+    protected override void Collide(int x, int y)
+    {
+        if (true == _isDead)
+            return;
+
+        MapObject mapObject = _map.GetMapObject(x, y);
+        if (null != mapObject)
+        {
+            switch (mapObject.GetObjectType())
+            {
+                case MapObject.eType.PLAYER:
+                    Attack(mapObject);
+                    break;
+                default:
+                    mapObject.Collide(this);
+                    break;
+            }
+        }
+    }
 }

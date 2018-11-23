@@ -19,6 +19,7 @@ public class MapObject : MonoBehaviour
 
     public enum eType
     {
+        PLAYER,
         ENEMY,
     }
 
@@ -36,6 +37,17 @@ public class MapObject : MonoBehaviour
     }
 
 
+    // Attribute
+
+    protected int _attackPoint = 2;
+    protected int _defensePoint = 1;
+
+    public virtual int GetAttackPoint()
+    {
+        return _attackPoint;
+    }
+
+
     // Event
 
     public void Collide(MapObject senderObject)
@@ -43,7 +55,7 @@ public class MapObject : MonoBehaviour
         Debug.Log("MapObject Collide : " + senderObject);
     }
 
-    public virtual void Attack(MapObject senderObject)
+    public virtual void Attacked(MapObject senderObject)
     {
         Debug.Log("MapObject Attack : " + senderObject);
     }
